@@ -1,8 +1,6 @@
 # OOP Design Document
 
-[Update the path below so your UML diagram appears in the rendered markdown, once you do, remove this text!]
-
-![](/path/to/UML.ong)
+![](UML.png)
 
 ## Overview
 
