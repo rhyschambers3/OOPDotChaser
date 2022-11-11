@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Creature {
+abstract public class Creature {
 
     
     // Note, that output should be in (x,y) format as
@@ -121,8 +121,19 @@ public class Creature {
 
     
     //TODO: Methods you may want complete here or in a child class, depending on your design
-    public void step(){} 
-    public void takeAction(){}
+    public void step(){
+        final int[] dc = {
+            0, 1, 0, -1
+        },
+        dr = { 1, 0, -1, 0
+        };
+        point.x += dr[dir];
+        point.y += dc[dir];
+    }
+     
+     public abstract void takeAction();
+    //each creature assess its surroundings, 
+    //determines if it should eat something, chase something, or do something
 
 
     
