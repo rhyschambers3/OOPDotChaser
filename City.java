@@ -65,8 +65,9 @@ public class City{
     }
     
     public void addZombieCat(){
-        creaturesToAdd.add(new ZombieCat(rand.nextInt(HEIGHT),rand.nextInt(WIDTH),this,rand));
+        creaturesToAdd.add(new ZombieCats(rand.nextInt(HEIGHT),rand.nextInt(WIDTH),this,rand));
     }
+
 
     //use this method to queue up a create to be added
     public void addNewCreatures(){
@@ -74,6 +75,67 @@ public class City{
             creatures.add(creaturesToAdd.remove());
         }
     }
+
+
+    //check if the cat is within a certain distance of the mouse
+    //if it is, move it to be where the mouse is
+    //return the type, mouse
+    public Creature catHunt(Creature c){
+        Creature hunted = null;
+        int dist = 100;
+        for (Creature cre : creatures){
+            if ((cre instanceof Mouse) && c.dist(cre) <= 20)
+            {
+                if(c.dist(cre) < dist){
+                    hunted = cre;
+                    dist = c.dist(cre);
+                }
+            }
+           
+        }
+        return hunted;
+    }
+    public Creature ZombieHunt(Creature c){
+        Creature hunted = null;
+        int dist = 100;
+        for(Creature cre : creatures){
+            if((cre instanceof ZombieCats) && c.dist(cre)<=40){
+                if(c.dist(cre)<dist){
+                    hunted = cre;
+                    dist = c.dist(cre);
+                }
+            }
+        }
+        return hunted;
+    }
+    // //method to return the mouse that is being caught by the cat
+    // public Creature MouseAt(GridPoint c){
+    //     ArrayList<Creature> temp = (ArrayList<Creature>)this.get(c);
+    //     Creature caught = null;
+    //     for(int i = 0; i<temp.size();i++){
+    //         if(temp.get(i) instanceof Mouse){
+    //             caught = temp.get(i);
+    //             break;
+    //         }
+            
+    //     }
+    //     return caught;
+    // }
+
+    // public Creature dogHunt(GridPoint c){
+    //     Creature hunted = null;
+    //     int dist = 100;
+    //     for(Creature cre : creatures){
+    //         if((cre instanceof ZombieCats || cre instanceof Cat || cre instanceof Mouse) && c.dist(cre.getGridPoint())<=40){
+    //             if(c.dist(cre.getGridPoint())<dist){
+    //                 hunted = cre;
+    //                 dist = c.dist(cre.getGridPoint());
+    //             }
+    //         }
+    //     }
+    //     return hunted;
+    // }
+    
 
     //You need to realize in your code such that simulate works for
     //**ALL** levels of simulkation, which means you'll need to take

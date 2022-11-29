@@ -1,6 +1,6 @@
 import java.util.Random;
 
-abstract public class Creature {
+ public abstract class Creature{
 
     
     // Note, that output should be in (x,y) format as
@@ -83,8 +83,11 @@ abstract public class Creature {
         stepLen=1;
     }
 
-    public boolean isDead(){ return dead;}
+    public abstract boolean isDead();
 
+    public void setGridPoint(GridPoint point){
+        this.point = point;
+    }
     
     //getter/setter methods
     public int getY(){
@@ -115,21 +118,21 @@ abstract public class Creature {
     }
 
     //make a random turn
-    public void randomTurn() {
-        this.dir = rand.nextInt(4);
-    }
+    public abstract void randomTurn();
 
     
-    //TODO: Methods you may want complete here or in a child class, depending on your design
-    public void step(){
-        final int[] dc = {
-            0, 1, 0, -1
-        },
-        dr = { 1, 0, -1, 0
-        };
-        point.x += dr[dir];
-        point.y += dc[dir];
-    }
+    public abstract void step();
+    //     if (dir == NORTH){
+    //         setDir(0);
+    //     }
+    //     if (dir == EAST){
+
+    //     }
+
+    //     if (dir == SOUTH)
+
+    //     if (dir == WEST)
+    // }
      
      public abstract void takeAction();
     //each creature assess its surroundings, 
@@ -143,4 +146,9 @@ abstract public class Creature {
         return ""+this.point.x+"e "+this.point.y+" "+lab;
     }
 
+   public void die(Creature c){
+        c.dead = true;
+        return;
+   }
+    
 }

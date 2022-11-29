@@ -36,32 +36,30 @@ public class Simulator {
         City city= new City(rand,numMice,numCats,numZombieCats);
         int count = 0;
 
-        //TODO ...
+        
         int N = 100;
         int M = 25;
-        //END TODO
+        
 
         while (count < rounds) {
             count++;
 
-            //TODO...
+   
             //
             // Every N rounds, add a mouse
             if(count % N == 0){
                 city.addMouse();
             }
-            //add a baby mouse at same location after 20 rounds
-            if (rounds == 20){
-                city.Mouse.takeAction();
-            }
+        
             
             //Every M rounds, add a Cat
             if(count % M == 0){
                 city.addCat();
             }
+           
             
 
-            //END TODO
+   
             
             city.simulate();
             System.out.println("done "+count);
