@@ -1,8 +1,8 @@
 # OOP Design Document
-
-![](UML.png)
 Updated UML:
-![](Lab6 - Page 3.pdf)
+![](Lab6 - Page 3.png)
+
+
 
 ## Overview
 
