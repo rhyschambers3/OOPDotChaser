@@ -20,7 +20,7 @@ Note that you must do two tasks here:
 
 For your final submission, please update `UML.png` with the final UML diagram and `OOP-design.md` with your final description. Below describe the major changes you made.
 
-[ANSWER HERE]
+The major change I made was that I did not create a dog creature. I did not have enough time, and I wanted to focus on the other components of the project first. 
 
 ## Part 2: Implementation
 
@@ -30,5 +30,5 @@ Level : [0,1,2,3,4] <-- choose one!
 
 If you completed Level 4, describe the additional creature you added to the simulation.
 
-[ANSWER HERE]
+I achieved level 3 of the simulation.
 
