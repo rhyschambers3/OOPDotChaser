@@ -143,7 +143,7 @@ import java.util.Random;
     //To String so you can output a creature to the plotter
     public String toString() {
         //output in (x,y) format
-        return ""+this.point.x+"e "+this.point.y+" "+lab;
+        return ""+this.point.x+" "+this.point.y+" "+lab;
     }
 
    public void die(Creature c){

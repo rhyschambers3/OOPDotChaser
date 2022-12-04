@@ -11,132 +11,140 @@ public class Cat extends Creature {
       count = 0;
   
     }  
+  
+    void chaseMouseX(Creature c){
+
+         
+          GridPoint cpoint = c.getGridPoint();
+          int xc = cpoint.x; 
+
+
+          GridPoint catPoint = this.getGridPoint();
+          int catX = catPoint.x;
+
+        
+            //find the direction needed to set the cat
+            int xDist = xc - catX;
+            
+            //need to get in the same x plane
+          // System.out.println("xdistance: " + xDist);
+              if(xDist > 0){
+                this.setDir(1);
+                
+                // System.out.println(this.getDir());
+        
+              }
+              if (xDist < 0){
+                this.setDir(3);
+           
+                
+              }
+              else{
+                return;
+              }
+           }
+            
+           void stepY(Creature c){
+             
+                GridPoint cpoint = c.getGridPoint();
+                int yc = cpoint.y;
+
+                GridPoint catPoint = this.getGridPoint();
+                int catY = catPoint.y;
+                int yDist = yc - catY;
+                // System.out.println("Mouse Y:" + c.getGridPoint());
+                // System.out.println("Cat Y: " + this.getGridPoint());
+                if (yDist > 0){
+                  this.setDir(2);
+   
+                }
+                else {
+                this.setDir(0);
+               
+
+                }
+            }
+          
+          
     
-    //randomly turn 5% of the time
-    @Override
+      
+       
+          
+        
+    
+  
+  //randomly turn 5% of the time
   public void randomTurn() {
     
       this.count++;
       //check if we are within a distance of the mouse. If we are, start to chase 
       //that mouse and if not, do the random turn
-      int curDist = 1000;
-      for (Creature c : this.city.creatures){
-        if (c instanceof Mouse && this.dist(c) <=20)
-        {
-
-          //find the x and y values of of the cat and the mouse
-         GridPoint cpoint = c.getGridPoint();
-         int xc = cpoint.x; //getX();
-         int yc = cpoint.y;
-
-         GridPoint catPoint = this.getGridPoint();
-         int catX = catPoint.x;
-         int catY = catPoint.y;
-        
-         //find the direction needed to set the cat
-         int xDist = xc - catX;
-         
-         //need to get in the same x plane
-         while (xDist != 0){
-          if(xDist > 0){
-            this.setDir(3);
-            this.step();
-            int newDistance = this.dist(c);
-            xDist = newDistance;
+      this.lab = LAB_YELLOW;
+      for (Creature c : city.creatures){
+        if  (this.getGridPoint().dist(c.getGridPoint()) < 20){
+          if (c instanceof Mouse){
+            // System.out.println("Mouse gridpoint:" + c.getGridPoint());
+            // System.out.println("Cat gridpoint:" + this.getGridPoint());
+            this.lab=LAB_CYAN;
+            this.chaseMouseX(c);
+            this.stepY(c);
+           
+            return;
           }
-          if (xDist < 0){
-            this.setDir(1);
-            this.step();
-            int newDistance = this.dist(c);
-            xDist = newDistance;
-          }
-         }
-         
-         int yDist = yc - catY;
-         while(yDist != 0){
-          if (yDist > 0){
-            this.setDir(0);
-            this.step();
-            int newDistance = this.dist(c);
-            yDist = newDistance;
-        }
-        if (xDist < 0){
-          this.setDir(2);
-          this.step();
-          int newDistance = this.dist(c);
-          yDist = newDistance;
-        }
-         }
-    }
-  }
-    //if it isn't within a certain distance, randomly turn
-      int i = rand.nextInt(3);
-      int prob = rand.nextInt(19); //find probability of 5% of the time
-
-      if (prob ==1){
-        if (i == 1){
-          this.setDir((this.getDir() + 1) % 4);
-
-        }
-        if (i == 2){
-          this.setDir((this.getDir() + 3) % 4);
         }
       }
   
-  //find a creature within 20 points from the cat
-  Creature hunted = city.catHunt(this);
-  if (hunted != null)
-  {
-    lab = LAB_CYAN;
-      //find the direction that the mouse is pointing 
-      int pointTo = hunted.getDir();
-      //go to that direction
-      this.setDir(pointTo);
-     
-  }
-  else{
-    lab = LAB_YELLOW;
-  }
-}
+      this.lab = LAB_YELLOW;
+    //if it isn't within a certain distance, randomly turn
+      
+      int prob = rand.nextInt(19); //find probability of 5% of the time
 
+      if (prob ==1 || prob == 2 ){
+          this.setDir((rand).nextInt(3));
+
+        }
+     return;
+      }
 
   
+
   public boolean isDead() {
    
     if (this.count ==49){
-      city.creaturesToAdd.add(new ZombieCats(this.getGridPoint().x,this.getGridPoint().y,this.city,this.rand));
+      die(this);
       dead = true;
       return dead;
     }
     return false; 
   }
-  @Override
+
   public void takeAction() {
+
+    this.randomTurn();
     //if the cat catches a mouse, the mouse is removed
-    for (Creature c : this.city.creatures){
+    for (Creature c : city.creatures){
       if( c instanceof Mouse && this.dist(c)==0){
+        
         die(c);
-        this.hunt = 0;
+        this.hunt++;
       }
       
     }
+    if (count == 50 && hunt == 0)
+    {
+      city.creaturesToAdd.add(new ZombieCats(this.getGridPoint().x,this.getGridPoint().y,this.city,this.rand));
+    }
 
-  // if (hunt == 7){
-  //   //add a new dog if the cat has hunted 7 mice
-  //   city.creaturesToAdd.add(new Dog(this.getGridPoint().x,this.getGridPoint().y,this.city,this.rand));
-  // }
-      
   }
-  @Override
+
   public void step() {
    
     
     GridPoint p = getGridPoint();
 
-    p.x += dirX[this.getDir()];
-    p.y += 2*dirY[this.getDir()]; //double y distance
-    p.x = (p.x+80)%80;
-    p.y = (p.y+80)%80;
+    p.x += 2*dirX[this.getDir()] % 80;
+    p.y += 2*dirY[this.getDir()] %80; //double y distance
+
    
     this.setGridPoint(p);
   }
